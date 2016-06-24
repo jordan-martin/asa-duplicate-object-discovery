@@ -1,7 +1,9 @@
 '''
 Name: asa_duplicate_object.py
 Description: Cisco ASA Firewall Duplicate Object Detection
-Requires: Python 'sys' and 'ciscoconfparse' libraries
+Requires: Python 'sys', 'datetime' and 'ciscoconfparse' libraries
+
+Usage:  asa_duplicate_object.py ''configuration_file_name'
 
 '''
 
@@ -201,3 +203,7 @@ def main():
 
 if __name__ == '__main__':
   main()
+
+
+# If you've made it this far I'm impressed.  I know I'm a hack of programmer but it does what I need it to.
+# You should go grab a beer or something to lower your anxiety from reading this code.
