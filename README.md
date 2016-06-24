@@ -2,4 +2,4 @@
 
 Python script to discover duplicate objects and object groups in Cisco ASA configurations.
 
-Usage:  asa_duplicate_object.py 'configuration_file_name'
+<b>Usage:</b>  <i>asa_duplicate_object.py 'configuration_file_name'</i>
