@@ -1,4 +1,4 @@
-# Cisc ASA Duplicate Object Discovery
+# Cisco ASA Duplicate Object Discovery
 
 Python script to discover duplicate objects and object groups in Cisco ASA configurations.
 
