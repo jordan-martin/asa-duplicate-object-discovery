@@ -17,7 +17,7 @@ def create_dict_object(input_raw,input_parse):
   object_groups = {}
   for line in input_raw:
     # Identify network objects by matching the config line
-    if 'object network' in line:
+    if 'object network' in line or 'object protocol' in line or 'object service' in line:
       # Find all child configurations components for this specific line
       object = input_parse.find_children_w_parents(line,'.*')
       # Isolate the name by popping it off the end of string
@@ -29,7 +29,7 @@ def create_dict_object(input_raw,input_parse):
       if not name in objects and first != "description":
         objects[name] = (object)
     # Repeating the above process but identifying object-groups instead
-    if 'object-group network' in line:
+    if 'object-group network' in line or 'object-group protocol' in line or 'object-group service' in line:
       object_group = input_parse.find_children_w_parents(line,'.*')
       name = (line.split()).pop(2)
       first = (line.split()).pop(0)
@@ -114,14 +114,14 @@ def write_to_file(objects,object_groups,input_parse):
     f.write("-----------------\nDuplicate Item " + str(i) + "\n-----------------\n\n")
     #Write primary object out
     f.write("First Object Found:\n\n")
-    primary = input_parse.find_all_children('object network ' + k)
+    primary = input_parse.find_all_children('object (network|protocol|service) ' + k)
     for lines in primary:
       f.write("\t" + lines)
     f.write("\n\n")
     #Write ancillary objects out
     f.write("Identical Object(s):\n\n")
     for items in objects[k]:
-      secondary = input_parse.find_all_children('object network ' + items)
+      secondary = input_parse.find_all_children('object (network|protocol|service) ' + items)
       for sec in secondary:
         f.write("\t" + sec)
       f.write("\n")
@@ -150,14 +150,14 @@ def write_to_file(objects,object_groups,input_parse):
     f.write("-----------------\nDuplicate Item " + str(i) + "\n-----------------\n\n")
     #Write primary object out
     f.write("First Object Group Found:\n\n")
-    primary = input_parse.find_all_children('object-group network ' + k)
+    primary = input_parse.find_all_children('object-group (network|protocol|service) ' + k)
     for lines in primary:
       f.write("\t" + lines)
     f.write("\n\n")
     #Write ancillary objects out
     f.write("Identical Object Group(s):\n\n")
     for items in object_groups[k]:
-      secondary = input_parse.find_all_children('object-group network ' + items)
+      secondary = input_parse.find_all_children('object-group (network|protocol|service) ' + items)
       for sec in secondary:
         f.write("\t" + sec)
       f.write("\n")
