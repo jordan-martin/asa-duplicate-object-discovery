@@ -1,7 +1,8 @@
-# Cisc ASA Duplicate Object Discovery
+# Cisco ASA Duplicate Object Discovery
 
 Python script to discover duplicate objects and object groups in Cisco ASA configurations.
 
 <b>Usage:</b>  <i>asa_duplicate_object.py 'configuration_file_name'</i>
 
-*** This script currently only identifies network objects and object groups. ***
+<b>Packages Required:</b>  CiscoConfParse
+
