@@ -3,7 +3,8 @@ Name: asa_duplicate_object.py
 Description: Cisco ASA Firewall Duplicate Object Detection
 Requires: Python 'sys', 'datetime' and 'ciscoconfparse' libraries
 
-Usage:  asa_duplicate_object.py ''configuration_file_name'
+Usage:  asa_duplicate_object.py 'configuration_file_name' 'output_file_name'
+output_file_name is an optional argument
 
 '''
 
@@ -98,10 +99,10 @@ def check_dup_object_group(object_group_dictionary):
 
 
 # This function is used to write detailed output to a file for future review
-def write_to_file(objects,object_groups,input_parse):
+def write_to_file(objects,object_groups,input_parse,output_file):
   today = datetime.date.today()
-  # Today the file name is hardcoded, future versions will include an optional output file name and possibly type
-  f = open("output.txt",'w')
+  # Open the file for writing.
+  f = open(output_file,'w')
   f.write("Output For asa_duplicate_object\n")
   f.write("Date: " + today.ctime() + "\n")
   f.write("Input File:  " + sys.argv[1] + "\n\n\n")
@@ -182,8 +183,14 @@ def write_to_file(objects,object_groups,input_parse):
 
 # This function doesn't do anything, that's why I named it main.
 def main():
-  # Verify we have the right number of arguments.  Probably should write some else code in eventually
-  if len(sys.argv) == 2:
+  # Verify we have the right number of arguments.
+  if len(sys.argv) > 1 and len(sys.argv) < 4:
+    # Check to see if a file-name argument was given and if so assign it to the output variable.  Otherwise assign a generic output.txt
+    print "\n\nRunning script to identity duplicte objects and object-groups in the provided ASA configuration...\n\n\n\n"
+    if len(sys.argv) >= 3:
+      output = sys.argv[2]
+    else:
+      output = "output.txt"
     # This is our source config file, it's important.
     x = open(sys.argv[1])
     # Read the source file into a varaible for future use
@@ -198,7 +205,10 @@ def main():
     object_dups = check_dup_object(object_dict)
     object_group_dups = check_dup_object_group(object_group_dict)
     # Share what we've learned with the output file
-    write_to_file(object_dups,object_group_dups,config_parse)
+    write_to_file(object_dups,object_group_dups,config_parse,output)
+    print "Script execution is complete and results have been written to " + output + "\n\n"
+  else:
+    print "\n\n**** ERROR ****\nIncorrect Number Of Arguments\n***************\n\nUsage:  python asa_duplicate_object.py 'configuration_file_name' 'output_file_name'\n\noutput_file_name is an optional argument.\n\n"
 
 
 if __name__ == '__main__':
